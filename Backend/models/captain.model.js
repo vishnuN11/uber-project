@@ -1,4 +1,6 @@
 const mongoose = require("mongoose")
+const bcrypt=require('bcrypt')
+const jwt=require("jsonwebtoken")
 const captainSchema = new mongoose.Schema({
     fullname: {
         firstname: {
@@ -9,7 +11,8 @@ const captainSchema = new mongoose.Schema({
         lastname: {
             type: String,
             minlength: [3, 'Lasttname must be at least 3 character long']
-        },
+        }
+    },
         email: {
             type: String,
             required: true,
@@ -61,7 +64,7 @@ const captainSchema = new mongoose.Schema({
                 type:Number
             }
         }
-    }
+   
 })
 captainSchema.methods.generateAuthToken = function () {
     const token = jwt.sign({ _id: this._id }, process.env.JWT_SECRET, { expiresIn: '24h' });
